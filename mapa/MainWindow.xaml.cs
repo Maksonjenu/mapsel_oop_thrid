@@ -26,7 +26,7 @@ namespace mapa
     public partial class MainWindow : Window
     {
 
-        public List<PointLatLng> points = new List<PointLatLng>();
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -34,22 +34,7 @@ namespace mapa
 
         private void MapLoaded(object sender, RoutedEventArgs e)
         {
-            GMaps.Instance.Mode = AccessMode.ServerAndCache;
-
-            // установка провайдера карт
-            Map.MapProvider = OpenStreetMapProvider.Instance;
-
-            // установка зума карты
-            Map.MinZoom = 2;
-            Map.MaxZoom = 17;
-            Map.Zoom = 15;
-            // установка фокуса карты
-            Map.Position = new PointLatLng(55.012823, 82.950359);
-            Map.MouseWheelZoomType = MouseWheelZoomType.MousePositionAndCenter;
-            Map.CanDragMap = true;
-            Map.DragButton = MouseButton.Left;
-
-
+           
         }
 
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
