@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace mapa.Classes
 {
-    abstract class MapObject
+    public abstract class MapObject
     {
         public string objectName;
         public DateTime creationTime;
