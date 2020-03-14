@@ -79,7 +79,8 @@ namespace mapa
        
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-             point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+
+            point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
             GMapMarker marker = new GMapMarker(point)
             {
                 Shape = new Image
@@ -93,6 +94,7 @@ namespace mapa
             Map.Markers.Add(marker);
             clickinfoX.Content = point.Lat;
             clickinfoY.Content = point.Lng;
+        
         }
 
 
