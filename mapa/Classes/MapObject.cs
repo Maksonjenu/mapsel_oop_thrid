@@ -1,5 +1,5 @@
 ﻿using GMap.NET;
-using GMap.NET.WindowsForms;
+using GMap.NET.WindowsPresentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

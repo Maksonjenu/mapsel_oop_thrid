@@ -1,11 +1,13 @@
 ﻿using GMap.NET;
-using GMap.NET.WindowsForms;
+using GMap.NET.WindowsPresentation;
 using mapa.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace mapa
 {
@@ -36,7 +38,17 @@ namespace mapa
         }
         public override GMapMarker GetMarker()
         {
-            throw new NotImplementedException();
+            GMapMarker marker = new GMapMarker(points[0]) // убрать первый элемент !!!!!!!!!!!!!!
+            {
+                Shape = new Image
+                {
+                    Width = 32, // ширина маркера
+                    Height = 32, // высота маркера
+                    ToolTip = "машина", // всплывающая подсказка
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/car.png")) // картинка
+                }
+            };
+            return marker;
         }
         public override DateTime getCreationDate()
         {

@@ -1,11 +1,13 @@
 ﻿using GMap.NET;
-using GMap.NET.WindowsForms;
+using GMap.NET.WindowsPresentation;
 using mapa.Classes;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace mapa
 {
@@ -30,7 +32,8 @@ namespace mapa
 
         public override GMapMarker GetMarker()
         {
-            throw new NotImplementedException();
+            GMapMarker marker = new GMapMarker(points[0]);
+            return marker;
         }
 
         public override DateTime getCreationDate()

@@ -55,54 +55,21 @@ namespace mapa
         {
             MapObject mapObject_car = new Car_class(createObjectName.Text,clickedPoint);
             mapObjects.Add(mapObject_car);
-            GMapMarker marker = new GMapMarker(point)
-            {
-                Shape = new Image
-                {
-                    Width = 32, // ширина маркера
-                    Height = 32, // высота маркера
-                    ToolTip = "машина", // всплывающая подсказка
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/car.png")) // картинка
-                }
-            };
-
-            Map.Markers.Add(marker);
+            Map.Markers.Add(mapObject_car.GetMarker());
         }
 
         public void createPeopleMarker(PointLatLng clickedPoint)
         {
             MapObject mapObject_people = new Human_class(createObjectName.Text, clickedPoint);
             mapObjects.Add(mapObject_people);
-            GMapMarker marker = new GMapMarker(point)
-            {
-                Shape = new Image
-                {
-                    Width = 32, // ширина маркера
-                    Height = 32, // высота маркера
-                    ToolTip = "какой то челик", // всплывающая подсказка
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/men.png")) // картинка
-                }
-            };
-
-            Map.Markers.Add(marker);
+            Map.Markers.Add(mapObject_people.GetMarker());
         }
 
         public void createPointMarker(PointLatLng clickedPoint)
         {
             MapObject mapObject_point = new Location_class(createObjectName.Text, clickedPoint);
             mapObjects.Add(mapObject_point);
-            GMapMarker marker = new GMapMarker(point)
-            {
-                Shape = new Image
-                {
-                    Width = 32, // ширина маркера
-                    Height = 32, // высота маркера
-                    ToolTip = "точка на карте", // всплывающая подсказка
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/point.png")) // картинка
-                }
-            };
-
-            Map.Markers.Add(marker);
+            Map.Markers.Add(mapObject_point.GetMarker());
         }
 
         private void MapLoaded(object sender, RoutedEventArgs e)
@@ -113,6 +80,17 @@ namespace mapa
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
              point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+            GMapMarker marker = new GMapMarker(point)
+            {
+                Shape = new Image
+                {
+                    Width = 32, // ширина маркера
+                    Height = 32, // высота маркера
+                    ToolTip = "timetime", // всплывающая подсказка
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/notMainSpot.png")) // картинка
+                }
+            };
+            Map.Markers.Add(marker);
             clickinfoX.Content = point.Lat;
             clickinfoY.Content = point.Lng;
         }
