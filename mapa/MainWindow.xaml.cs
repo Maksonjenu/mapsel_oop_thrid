@@ -77,36 +77,50 @@ namespace mapa
            
         }
 
+        //public ref GMapMarker findRef()
+        //{
+        //    return ref new GMapMarker(new PointLatLng());
+        //}
+
         
 
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+            
+
             point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
-            GMapMarker marker = new GMapMarker(point)
-            {
-                Shape = new Image
-                {
-                    Width = 32, // ширина маркера
-                    Height = 32, // высота маркера
-                    ToolTip = "timetime", // всплывающая подсказка
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/notMainSpot.png")) // картинка
-                }
-            };
-            ref GMapMarker markerRef = ref marker;
-            if (Map.Markers.Count == 0)
-            {
-                Map.Markers.Add(marker);
-                clickinfoX.Content = point.Lat;
-                clickinfoY.Content = point.Lng;
-            }
-            else
-            {
-                Map.Markers.Remove(markerRef);
-                Map.Markers.Add(marker);     // после выхода из метода ссылка обнуляется 
-                clickinfoX.Content = point.Lat;
-                clickinfoY.Content = point.Lng;
-            }
+            clickinfoY.Content = point.Lng;
+            clickinfoX.Content = point.Lat;
+            //GMapMarker marker = new GMapMarker(point)
+            //{
+            //    Shape = new Image
+            //    {
+            //        Width = 32, // ширина маркера
+            //        Height = 32, // высота маркера
+            //        ToolTip = "timetime", // всплывающая подсказка
+            //        Source = new BitmapImage(new Uri("pack://application:,,,/Resources/notMainSpot.png")) // картинка
+            //    }
+            //};
+
+
+
+
+
+            //if (Map.Markers.Count == 0)
+            //{
+            //    Map.Markers.Add(marker);
+            //    clickinfoX.Content = point.Lat;
+            //    clickinfoY.Content = point.Lng;
+
+            //}
+            //else
+            //{
+
+            //    Map.Markers.Add(marker);     // после выхода из метода ссылка обнуляется 
+            //    clickinfoX.Content = point.Lat;
+            //    clickinfoY.Content = point.Lng;
+            //}
         }
 
 
