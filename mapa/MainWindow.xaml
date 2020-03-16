@@ -14,7 +14,8 @@
         
 
         <Grid Name="Maps" Height="Auto" Width="Auto" Margin="279,10,2,8">
-            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown"/>
+            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseDoubleClick="Map_MouseDoubleClick"/>
+           
 
         </Grid>
         <Label Content="Coursor mode" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="143"/>

@@ -76,7 +76,9 @@ namespace mapa
         {
            
         }
-       
+
+        
+
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -91,10 +93,20 @@ namespace mapa
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/notMainSpot.png")) // картинка
                 }
             };
-            Map.Markers.Add(marker);
-            clickinfoX.Content = point.Lat;
-            clickinfoY.Content = point.Lng;
-        
+            ref GMapMarker markerRef = ref marker;
+            if (Map.Markers.Count == 0)
+            {
+                Map.Markers.Add(marker);
+                clickinfoX.Content = point.Lat;
+                clickinfoY.Content = point.Lng;
+            }
+            else
+            {
+                Map.Markers.Remove(markerRef);
+                Map.Markers.Add(marker);     // после выхода из метода ссылка обнуляется 
+                clickinfoX.Content = point.Lat;
+                clickinfoY.Content = point.Lng;
+            }
         }
 
 
@@ -140,6 +152,15 @@ namespace mapa
             {
                 System.Windows.MessageBox.Show(createmodecombo.SelectedItem.ToString());
             }
+        }
+
+        
+
+        
+
+        private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.MessageBox.Show("double");
         }
     }
     
