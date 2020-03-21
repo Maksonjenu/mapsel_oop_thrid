@@ -40,7 +40,7 @@ namespace mapa
         public void initMap()
         {
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
-            Map.MapProvider = OpenStreetMapProvider.Instance;
+            Map.MapProvider = GMapProviders.YandexMap;
             Map.MinZoom = 2;
             Map.MaxZoom = 17;
             Map.Zoom = 15;
@@ -86,9 +86,6 @@ namespace mapa
 
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-            
-
             point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
             clickinfoY.Content = point.Lng;
             clickinfoX.Content = point.Lat;
