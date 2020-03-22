@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsPresentation;
-using GMap.NET.MapProviders;
 using System.Device.Location;
 using System.Windows.Forms;
 using mapa.Classes;
@@ -28,6 +27,8 @@ namespace mapa
     public partial class MainWindow : Window
     {
 
+        // массив точек записывать в список  
+
         public List<MapObject> mapObjects = new List<MapObject>();
 
         public PointLatLng point = new PointLatLng();
@@ -35,12 +36,13 @@ namespace mapa
         {
            InitializeComponent();
            initMap();
+            radioButCreate.IsChecked = true;
         }
 
         public void initMap()
         {
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
-            Map.MapProvider = GMapProviders.YandexMap;
+            Map.MapProvider = OpenStreetMapProvider.Instance;
             Map.MinZoom = 2;
             Map.MaxZoom = 17;
             Map.Zoom = 15;
@@ -72,52 +74,48 @@ namespace mapa
             Map.Markers.Add(mapObject_point.GetMarker());
         }
 
+        public void createArea(List<PointLatLng> points)
+        {
+            GMapMarker marker = new GMapPolygon(points)
+            {
+                Shape = new Path
+                {
+                    Stroke = Brushes.Black, // стиль обводки
+                    Fill = Brushes.Violet, // стиль заливки
+                    Opacity = 0.7 // прозрачность
+                }
+            };
+            Map.Markers.Add(marker);
+        }
+
+        public void createPath(List<PointLatLng> points)
+        {
+            GMapMarker marker = new GMapRoute(points)
+            {
+                Shape = new Path()
+                {
+                    Stroke = Brushes.DarkBlue, // цвет обводки
+                    Fill = Brushes.DarkBlue, // цвет заливки
+                    StrokeThickness = 4 // толщина обводки
+                }
+            };
+            Map.Markers.Add(marker);
+
+        }
+
         private void MapLoaded(object sender, RoutedEventArgs e)
         {
            
         }
 
-        //public ref GMapMarker findRef()
-        //{
-        //    return ref new GMapMarker(new PointLatLng());
-        //}
+     
 
         
 
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
-            clickinfoY.Content = point.Lng;
-            clickinfoX.Content = point.Lat;
-            //GMapMarker marker = new GMapMarker(point)
-            //{
-            //    Shape = new Image
-            //    {
-            //        Width = 32, // ширина маркера
-            //        Height = 32, // высота маркера
-            //        ToolTip = "timetime", // всплывающая подсказка
-            //        Source = new BitmapImage(new Uri("pack://application:,,,/Resources/notMainSpot.png")) // картинка
-            //    }
-            //};
-
-
-
-
-
-            //if (Map.Markers.Count == 0)
-            //{
-            //    Map.Markers.Add(marker);
-            //    clickinfoX.Content = point.Lat;
-            //    clickinfoY.Content = point.Lng;
-
-            //}
-            //else
-            //{
-
-            //    Map.Markers.Add(marker);     // после выхода из метода ссылка обнуляется 
-            //    clickinfoX.Content = point.Lat;
-            //    clickinfoY.Content = point.Lng;
-            //}
+           
+        
         }
 
 
@@ -141,46 +139,121 @@ namespace mapa
         {
             if (createmodecombo.SelectedIndex == 0) // area
             {
-                System.Windows.MessageBox.Show(createmodecombo.SelectedItem.ToString());
+                
+                createArea(areaspots);
+                areaspots.Clear();
             }
 
             if (createmodecombo.SelectedIndex == 1) // point
             {
+               
                 createPointMarker(point);
+               
             }
 
             if (createmodecombo.SelectedIndex == 2) // car
             {
+                
                 createCarMarker(point);
             }
 
             if (createmodecombo.SelectedIndex == 3) // people
             {
+                
                 createPeopleMarker(point);
             }
 
             if (createmodecombo.SelectedIndex == 4) // path
             {
-                System.Windows.MessageBox.Show(createmodecombo.SelectedItem.ToString());
+                
+                createPath(pathspot);
+                pathspot.Clear();
             }
+
+
         }
 
-        
+        public List<PointLatLng> areaspots = new List<PointLatLng>();
+        public List<PointLatLng> pathspot = new List<PointLatLng>();
+        public bool getareagreatagain = false;
+        public bool getpathgreatagain = false;
 
-        
 
         private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             System.Windows.MessageBox.Show("double");
+        }
+
+        private void Map_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (getareagreatagain)
+            {
+                point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+                areaspots.Add(point);
+                clickinfoY.Content = point.Lng;
+                clickinfoX.Content = point.Lat;
+
+            }
+            else
+            if (getpathgreatagain)
+            {
+                point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+                pathspot.Add(point);
+                clickinfoY.Content = point.Lng;
+                clickinfoX.Content = point.Lat;
+            }
+            else
+            {
+                point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+                clickinfoY.Content = point.Lng;
+                clickinfoX.Content = point.Lat;
+            }
+        }
+
+        private void createmodecombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (createmodecombo.SelectedIndex == 0) // area
+            {
+                getareagreatagain = true;
+                getpathgreatagain = false;
+            }
+
+            if (createmodecombo.SelectedIndex == 1) // point
+            {
+                getareagreatagain = false;
+                getpathgreatagain = false;
+            }
+
+            if (createmodecombo.SelectedIndex == 2) // car
+            {
+                getareagreatagain = false;
+                getpathgreatagain = false;
+            }
+
+            if (createmodecombo.SelectedIndex == 3) // people
+            {
+                getareagreatagain = false;
+                getpathgreatagain = false;
+            }
+
+            if (createmodecombo.SelectedIndex == 4) // path
+            {
+                getareagreatagain = false;
+                getpathgreatagain = true;
+            }
+
         }
     }
     
 }
 
 
-   
 
 
+//public ref GMapMarker findRef()
+//{
+//    return ref new GMapMarker(new PointLatLng());
+//}
 
 //PointLatLng point = new PointLatLng(55.016511, 82.946152);
 
@@ -195,3 +268,33 @@ namespace mapa
 //    }
 //};
 //Map.Markers.Add(marker);
+
+//GMapMarker marker = new GMapMarker(point)
+//{
+//    Shape = new Image
+//    {
+//        Width = 32, // ширина маркера
+//        Height = 32, // высота маркера
+//        ToolTip = "timetime", // всплывающая подсказка
+//        Source = new BitmapImage(new Uri("pack://application:,,,/Resources/notMainSpot.png")) // картинка
+//    }
+//};
+
+
+
+
+
+//if (Map.Markers.Count == 0)
+//{
+//    Map.Markers.Add(marker);
+//    clickinfoX.Content = point.Lat;
+//    clickinfoY.Content = point.Lng;
+
+//}
+//else
+//{
+
+//    Map.Markers.Add(marker);     // после выхода из метода ссылка обнуляется 
+//    clickinfoX.Content = point.Lat;
+//    clickinfoY.Content = point.Lng;
+//}

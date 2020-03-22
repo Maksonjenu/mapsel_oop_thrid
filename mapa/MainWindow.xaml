@@ -14,7 +14,7 @@
         
 
         <Grid Name="Maps" Height="Auto" Width="Auto" Margin="279,10,2,8">
-            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseDoubleClick="Map_MouseDoubleClick"/>
+            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseDoubleClick="Map_MouseDoubleClick" MouseRightButtonDown="Map_MouseRightButtonDown"/>
            
 
         </Grid>
@@ -22,7 +22,7 @@
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="123" Margin="10,110,0,0" VerticalAlignment="Top" Width="170"/>
         <Label Content="add mode" HorizontalAlignment="Left" Margin="21,115,0,0" VerticalAlignment="Top" Width="143"/>
-        <ComboBox x:Name="createmodecombo" HorizontalAlignment="Left" Margin="21,146,0,0" VerticalAlignment="Top" Width="143">
+        <ComboBox x:Name="createmodecombo" HorizontalAlignment="Left" Margin="21,146,0,0" VerticalAlignment="Top" Width="143" SelectionChanged="createmodecombo_SelectionChanged">
             <ComboBoxItem>area</ComboBoxItem>
             <ComboBoxItem>point</ComboBoxItem>
             <ComboBoxItem>car</ComboBoxItem>

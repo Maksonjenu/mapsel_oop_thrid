@@ -44,8 +44,7 @@ namespace mapa
                 {
                     Width = 32, // ширина маркера
                     Height = 32, // высота маркера
-                    ToolTip = "машина", // всплывающая подсказка
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Resources/car.png")) // картинка
+                   
                 }
             };
             return marker;
