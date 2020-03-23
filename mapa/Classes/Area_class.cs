@@ -39,7 +39,7 @@ namespace mapa
 
         public override PointLatLng getFocus()
         {
-            return (new PointLatLng());
+            return points.Last();
         }
 
         public override string getTitle()

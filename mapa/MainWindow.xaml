@@ -11,11 +11,11 @@
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Width="167" Margin="13,31,0,0"/>
         <RadioButton Content="object search" Name="radioButSearch" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="21,66,0,0" Checked="radioButSearch_Checked"/>
         <RadioButton Content="create object" Name="radioButCreate" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="21,46,0,0" Checked="radioButCreate_Checked"/>
-        
+
 
         <Grid Name="Maps" Height="Auto" Width="Auto" Margin="279,10,2,8">
             <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseDoubleClick="Map_MouseDoubleClick" MouseRightButtonDown="Map_MouseRightButtonDown"/>
-           
+
 
         </Grid>
         <Label Content="Coursor mode" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="143"/>
@@ -29,17 +29,17 @@
             <ComboBoxItem>people point</ComboBoxItem>
             <ComboBoxItem>path</ComboBoxItem>
         </ComboBox>
-        
+
         <TextBox x:Name="createObjectName" HorizontalAlignment="Left" Height="23" Margin="21,173,0,0" TextWrapping="Wrap" Text="name's here" VerticalAlignment="Top" Width="143"/>
         <Button x:Name="addbuttoncreate" Content="ok button" HorizontalAlignment="Left" Margin="21,201,0,0" VerticalAlignment="Top" Width="70" Click="addbuttoncreate_Click"/>
         <Button x:Name="resetpointcreate" Content="reset point" HorizontalAlignment="Left" Margin="94,201,0,0" VerticalAlignment="Top" Width="70"/>
-        
+
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="201" Margin="10,238,0,0" VerticalAlignment="Top" Width="246"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="21,249,0,0" TextWrapping="Wrap" Text="search" VerticalAlignment="Top" Width="120"/>
         <Button Content="useless button" HorizontalAlignment="Left" Margin="146,249,0,0" VerticalAlignment="Top" Width="93" Height="23"/>
-        <TextBox HorizontalAlignment="Left"  IsEnabled="False" Height="124" Margin="21,308,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="218"/>
         <Label Content="result founds" HorizontalAlignment="Left" Margin="21,277,0,0" VerticalAlignment="Top" Width="218"/>
         <Label x:Name="clickinfoX" Content="0" HorizontalAlignment="Left" Margin="201,31,0,0" VerticalAlignment="Top"/>
         <Label x:Name="clickinfoY" Content="0" HorizontalAlignment="Left" Margin="201,63,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="findsresult" HorizontalAlignment="Left" Height="120" Margin="21,308,0,0" VerticalAlignment="Top" Width="218" SelectionChanged="findsresult_SelectionChanged"/>
     </Grid>
 </Window>

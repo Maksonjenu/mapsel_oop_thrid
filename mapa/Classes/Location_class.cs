@@ -26,7 +26,7 @@ namespace mapa
 
         public override PointLatLng getFocus()
         {
-            return (new PointLatLng());
+            return point;
         }
 
         public override GMapMarker GetMarker()

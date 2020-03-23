@@ -121,45 +121,48 @@ namespace mapa
 
         private void addbuttoncreate_Click(object sender, RoutedEventArgs e)
         {
-            if (createmodecombo.SelectedIndex == 0) // area
+
+            switch (createmodecombo.SelectedIndex)
             {
-                
-                createArea(areaspots);
-                areaspots.Clear();
+                case 0:
+                    {
+                        createArea(areaspots);
+                        areaspots.Clear();
+                        findsresult.Items.Add(mapObjects.Last().objectName + " - area");
+                        break;
+                    }
+                case 1:
+                    {
+                        createPointMarker(point);
+                        findsresult.Items.Add(mapObjects.Last().objectName + " - point");
+                        break;
+                    }
+                case 2:
+                    {
+                        createCarMarker(point);
+                        findsresult.Items.Add(mapObjects.Last().objectName + " - car");
+                        break;
+                    }
+                case 3:
+                    {
+                        createPeopleMarker(point);
+                        findsresult.Items.Add(mapObjects.Last().objectName + " - people");
+                        break;
+                    }
+                case 4:
+                    {
+                        createPath(pathspot);
+                        pathspot.Clear();
+                        findsresult.Items.Add(mapObjects.Last().objectName + " - path");
+                        break;
+                    }
             }
-
-            if (createmodecombo.SelectedIndex == 1) // point
-            {
-               
-                createPointMarker(point);
-               
-            }
-
-            if (createmodecombo.SelectedIndex == 2) // car
-            {
-                
-                createCarMarker(point);
-            }
-
-            if (createmodecombo.SelectedIndex == 3) // people
-            {
-                
-                createPeopleMarker(point);
-            }
-
-            if (createmodecombo.SelectedIndex == 4) // path
-            {
-                
-                createPath(pathspot);
-                pathspot.Clear();
-            }
-
-
+           
         }
 
         private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            System.Windows.MessageBox.Show("double");
+         //   Map.Position = mapObjects.Last().getFocus(); // не работает со списками
         }
 
         private void Map_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -220,6 +223,11 @@ namespace mapa
                 getpathgreatagain = true;
             }
 
+        }
+
+        private void findsresult_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Map.Position = mapObjects[findsresult.SelectedIndex].getFocus();
         }
     }
     

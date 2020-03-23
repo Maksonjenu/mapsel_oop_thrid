@@ -23,7 +23,7 @@ namespace mapa
 {
     class Route_class : MapObject
     {
-        public List<PointLatLng> points = new List<PointLatLng>();
+        List<PointLatLng> points = new List<PointLatLng>();
         public Route_class(string name, List<PointLatLng> Points) : base(name)
         
         {
@@ -37,7 +37,7 @@ namespace mapa
 
         public override PointLatLng getFocus()
         {
-            return (new PointLatLng());
+            return points.Last();
         }
 
         public override GMapMarker GetMarker()
