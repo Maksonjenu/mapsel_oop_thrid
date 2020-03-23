@@ -1,13 +1,23 @@
-﻿using GMap.NET;
-using GMap.NET.WindowsPresentation;
-using mapa.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using GMap.NET;
+using GMap.NET.MapProviders;
+using GMap.NET.WindowsPresentation;
+using System.Device.Location;
+using System.Windows.Forms;
+using mapa.Classes;
 
 namespace mapa
 {
@@ -32,7 +42,15 @@ namespace mapa
 
         public override GMapMarker GetMarker()
         {
-            GMapMarker marker = new GMapMarker(points[0]);
+            GMapMarker marker = new GMapRoute(points)
+            {
+                Shape = new Path()
+                {
+                    Stroke = Brushes.DarkBlue, // цвет обводки
+                    Fill = Brushes.DarkBlue, // цвет заливки
+                    StrokeThickness = 4 // толщина обводки
+                }
+            };
             return marker;
         }
 

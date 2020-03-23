@@ -76,30 +76,18 @@ namespace mapa
 
         public void createArea(List<PointLatLng> points) // ЭТУ 
         {
-            GMapMarker marker = new GMapPolygon(points)
-            {
-                Shape = new Path
-                {
-                    Stroke = Brushes.Black, // стиль обводки
-                    Fill = Brushes.Red, // стиль заливки
-                    Opacity = 0.7 // прозрачность
-                }
-            };
-            Map.Markers.Add(marker);
+
+            MapObject mapObject_area = new Area_class(createObjectName.Text, points);
+            mapObjects.Add(mapObject_area);
+            Map.Markers.Add(mapObject_area.GetMarker());
+
         }
 
         public void createPath(List<PointLatLng> points)  // И ЭТУ ШЛЯПУ НАДО СУКА В КЛАССЫ 
         {
-            GMapMarker marker = new GMapRoute(points)
-            {
-                Shape = new Path()
-                {
-                    Stroke = Brushes.Black, // цвет обводки
-                    Fill = Brushes.Black, // цвет заливки
-                    StrokeThickness = 4 // толщина обводки
-                }
-            };
-            Map.Markers.Add(marker);
+            MapObject mapObject_path = new Route_class(createObjectName.Text, points);
+            mapObjects.Add(mapObject_path);
+            Map.Markers.Add(mapObject_path.GetMarker());
 
         }
 
