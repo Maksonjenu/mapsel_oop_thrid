@@ -26,12 +26,15 @@ namespace mapa
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        // массив точек записывать в список  
-
+        public List<PointLatLng> areaspots = new List<PointLatLng>();
+        public List<PointLatLng> pathspot = new List<PointLatLng>();
         public List<MapObject> mapObjects = new List<MapObject>();
-
         public PointLatLng point = new PointLatLng();
+        public bool getareagreatagain = false;
+        public bool getpathgreatagain = false;
+       
+
+
         public MainWindow()
         {
            InitializeComponent();
@@ -74,7 +77,7 @@ namespace mapa
             Map.Markers.Add(mapObject_point.GetMarker());
         }
 
-        public void createArea(List<PointLatLng> points) // ЭТУ 
+        public void createArea(List<PointLatLng> points) 
         {
 
             MapObject mapObject_area = new Area_class(createObjectName.Text, points);
@@ -83,7 +86,7 @@ namespace mapa
 
         }
 
-        public void createPath(List<PointLatLng> points)  // И ЭТУ ШЛЯПУ НАДО СУКА В КЛАССЫ 
+        public void createPath(List<PointLatLng> points) 
         {
             MapObject mapObject_path = new Route_class(createObjectName.Text, points);
             mapObjects.Add(mapObject_path);
@@ -96,18 +99,11 @@ namespace mapa
            
         }
 
-     
-
-        
-
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
            
         
         }
-
-
-        
 
         private void radioButCreate_Checked(object sender, RoutedEventArgs e)
         {
@@ -160,12 +156,6 @@ namespace mapa
 
 
         }
-
-        public List<PointLatLng> areaspots = new List<PointLatLng>();
-        public List<PointLatLng> pathspot = new List<PointLatLng>();
-        public bool getareagreatagain = false;
-        public bool getpathgreatagain = false;
-
 
         private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

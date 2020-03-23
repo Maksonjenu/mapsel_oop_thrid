@@ -44,7 +44,7 @@ namespace mapa
 
         public override string getTitle()
         {
-            throw new NotImplementedException();
+            return objectName;
         }
         public override GMapMarker GetMarker()
         {
@@ -62,7 +62,7 @@ namespace mapa
         }
         public override DateTime getCreationDate()
         {
-            throw new NotImplementedException();
+            return creationTime;
         }
     }
 }
