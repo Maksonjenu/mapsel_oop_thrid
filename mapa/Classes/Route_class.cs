@@ -23,7 +23,7 @@ namespace mapa
 {
     class Route_class : MapObject
     {
-        List<PointLatLng> points = new List<PointLatLng>();
+        public List<PointLatLng> points = new List<PointLatLng>();
         public Route_class(string name, List<PointLatLng> Points) : base(name)
         
         {

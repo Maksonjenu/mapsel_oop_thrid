@@ -23,7 +23,7 @@ namespace mapa
 {
      class Area_class : MapObject
     {
-        List<PointLatLng> points = new List<PointLatLng>();
+       public List<PointLatLng> points = new List<PointLatLng>();
 
       public Area_class(string name,List<PointLatLng> Points) : base(name)
         {
@@ -37,10 +37,7 @@ namespace mapa
             return(new double());
         }
 
-        public override PointLatLng getFocus()
-        {
-            return points.Last();
-        }
+        public override PointLatLng getFocus() => points.Last();
 
         public override string getTitle()
         {

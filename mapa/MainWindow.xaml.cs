@@ -26,8 +26,8 @@ namespace mapa
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<PointLatLng> areaspots = new List<PointLatLng>();
-        public List<PointLatLng> pathspot = new List<PointLatLng>();
+        public static List<PointLatLng> areaspots = new List<PointLatLng>();
+        public static List<PointLatLng> pathspot = new List<PointLatLng>();
         public List<MapObject> mapObjects = new List<MapObject>();
         public PointLatLng point = new PointLatLng();
         public bool getareagreatagain = false;
@@ -127,8 +127,9 @@ namespace mapa
                 case 0:
                     {
                         createArea(areaspots);
-                        areaspots.Clear();
+                       
                         findsresult.Items.Add(mapObjects.Last().objectName + " - area");
+                        
                         break;
                     }
                 case 1:
@@ -152,12 +153,14 @@ namespace mapa
                 case 4:
                     {
                         createPath(pathspot);
-                        pathspot.Clear();
+                        
                         findsresult.Items.Add(mapObjects.Last().objectName + " - path");
+                 
                         break;
                     }
             }
-           
+            areaspots = new List<PointLatLng>();
+            pathspot = new List<PointLatLng>();
         }
 
         private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
