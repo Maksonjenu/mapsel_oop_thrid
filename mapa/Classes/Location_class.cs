@@ -1,13 +1,10 @@
-﻿using GMap.NET;
-using GMap.NET.WindowsPresentation;
-using mapa.Classes;
-using System;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using GMap.NET;
+using GMap.NET.WindowsPresentation;
+using System.Device.Location;
+using mapa.Classes;
 
 namespace mapa
 {
@@ -19,15 +16,10 @@ namespace mapa
         {
             this.point = Point;
         }
-        public override double getDistance()
-        {
-            return (new double());
-        }
 
-        public override PointLatLng getFocus()
-        {
-            return point;
-        }
+
+        public override PointLatLng getFocus() => point;
+        
 
         public override GMapMarker GetMarker()
         {
@@ -37,22 +29,24 @@ namespace mapa
                 {
                     Width = 32, // ширина маркера
                     Height = 32, // высота маркера
-                    ToolTip = "машина", // всплывающая подсказка
+                    ToolTip = objectName, // всплывающая подсказка
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/point.png")) // картинка
                 }
             };
             return marker;
         }
 
-        public override DateTime getCreationDate()
-        {
-            throw new NotImplementedException();
-        }
+        public override DateTime getCreationDate() => creationTime;
 
-        public override string getTitle()
+
+        public override string getTitle() => objectName;
+       
+
+        public override double getDist(PointLatLng point1)
         {
-            throw new NotImplementedException();
+            GeoCoordinate geo1 = new GeoCoordinate(point.Lat, point.Lng);
+            GeoCoordinate geo2 = new GeoCoordinate(point1.Lat, point1.Lng);
+            return geo1.GetDistanceTo(geo2);
         }
-        
     }
 }

@@ -28,17 +28,12 @@ namespace mapa
         
         {
             this.points = Points;        
-        } 
-
-       public override double getDistance()
-        {
-            return (new double());
         }
 
-        public override PointLatLng getFocus()
-        {
-            return points.Last();
-        }
+
+
+        public override PointLatLng getFocus() => points.Last();
+        
 
         public override GMapMarker GetMarker()
         {
@@ -48,27 +43,32 @@ namespace mapa
                 {
                     Stroke = Brushes.DarkBlue, // цвет обводки
                     Fill = Brushes.DarkBlue, // цвет заливки
-                    StrokeThickness = 4 // толщина обводки
+                    StrokeThickness = 4, // толщина обводки
+                    ToolTip = objectName,
                 }
             };
             return marker;
         }
 
-        public override DateTime getCreationDate()
-        {
-            return new DateTime();
-        }
+        public override DateTime getCreationDate() => creationTime;
+      
 
-        public override string getTitle()
-        {
-            throw new NotImplementedException();
-        }
+        public override string getTitle() => objectName;
+       
 
-        /*
-        GMapMarker getMarker()
+        public override double getDist(PointLatLng point)
         {
-            return (new GMapMarker());
+            GeoCoordinate geo1 = new GeoCoordinate(point.Lat, point.Lng);
+            GeoCoordinate geo2 = new GeoCoordinate(points[0].Lat,points[0].Lng);
+            double min = geo1.GetDistanceTo(geo2);
+
+            foreach (PointLatLng obj in points)
+            {
+                geo2 = new GeoCoordinate(obj.Lat, obj.Lng);
+                if (geo1.GetDistanceTo(geo2) < min)
+                    min = geo1.GetDistanceTo(geo2);
+            }
+            return min;
         }
-        */
     }
 }

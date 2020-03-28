@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace mapa.Classes
 {
-    public abstract class MapObject
+    interface IPOJALUSTA
+    {
+        double getDist();
+       
+    }
+    public abstract class MapObject 
     {
         public string objectName;
         public DateTime creationTime;
@@ -22,11 +27,14 @@ namespace mapa.Classes
 
         public abstract DateTime getCreationDate();
 
-        public abstract double getDistance();
+        
 
         public abstract PointLatLng getFocus();
 
         public abstract GMapMarker GetMarker();
-                                 
+
+        public abstract double getDist(PointLatLng point);
+        
+            
     }
 }

@@ -35,11 +35,12 @@
         <Button x:Name="resetpointcreate" Content="reset point" HorizontalAlignment="Left" Margin="94,201,0,0" VerticalAlignment="Top" Width="70"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="201" Margin="10,238,0,0" VerticalAlignment="Top" Width="246"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="21,249,0,0" TextWrapping="Wrap" Text="search" VerticalAlignment="Top" Width="120"/>
-        <Button Content="useless button" HorizontalAlignment="Left" Margin="146,249,0,0" VerticalAlignment="Top" Width="93" Height="23"/>
+        <TextBox x:Name="whatineedtofound" HorizontalAlignment="Left" Height="23" Margin="21,249,0,0" TextWrapping="Wrap" Text="search" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="searchButton" Content="useless button" HorizontalAlignment="Left" Margin="146,249,0,0" VerticalAlignment="Top" Width="93" Height="23" Click="SearchButton_Click"/>
         <Label Content="result founds" HorizontalAlignment="Left" Margin="21,277,0,0" VerticalAlignment="Top" Width="218"/>
         <Label x:Name="clickinfoX" Content="0" HorizontalAlignment="Left" Margin="201,31,0,0" VerticalAlignment="Top"/>
         <Label x:Name="clickinfoY" Content="0" HorizontalAlignment="Left" Margin="201,63,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="findsresult" HorizontalAlignment="Left" Height="120" Margin="21,308,0,0" VerticalAlignment="Top" Width="218" SelectionChanged="findsresult_SelectionChanged"/>
+        <Label x:Name="distanceToPoints" Content="0" HorizontalAlignment="Left" Margin="201,110,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

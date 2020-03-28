@@ -19,6 +19,7 @@ using System.Device.Location;
 using System.Windows.Forms;
 using mapa.Classes;
 
+
 namespace mapa
 {
     /// <summary>
@@ -122,50 +123,64 @@ namespace mapa
         private void addbuttoncreate_Click(object sender, RoutedEventArgs e)
         {
 
-            switch (createmodecombo.SelectedIndex)
+            if (createObjectName.Text == "")
+                System.Windows.MessageBox.Show("Имя объекта пустое");
+            else
             {
-                case 0:
-                    {
-                        createArea(areaspots);
-                       
-                        findsresult.Items.Add(mapObjects.Last().objectName + " - area");
-                        
-                        break;
-                    }
-                case 1:
-                    {
-                        createPointMarker(point);
-                        findsresult.Items.Add(mapObjects.Last().objectName + " - point");
-                        break;
-                    }
-                case 2:
-                    {
-                        createCarMarker(point);
-                        findsresult.Items.Add(mapObjects.Last().objectName + " - car");
-                        break;
-                    }
-                case 3:
-                    {
-                        createPeopleMarker(point);
-                        findsresult.Items.Add(mapObjects.Last().objectName + " - people");
-                        break;
-                    }
-                case 4:
-                    {
-                        createPath(pathspot);
-                        
-                        findsresult.Items.Add(mapObjects.Last().objectName + " - path");
-                 
-                        break;
-                    }
+                switch (createmodecombo.SelectedIndex)
+                {
+                    case 0:
+                        {
+                            createArea(areaspots);
+                            break;
+                        }
+                    case 1:
+                        {
+                            createPointMarker(point);
+                            break;
+                        }
+                    case 2:
+                        {
+                            createCarMarker(point);
+                            break;
+                        }
+                    case 3:
+                        {
+                            createPeopleMarker(point);
+                            break;
+                        }
+                    case 4:
+                        {
+                            createPath(pathspot);
+                            break;
+                        }
+                }
+                areaspots = new List<PointLatLng>();
+                pathspot = new List<PointLatLng>();
+                createObjectName.Clear();
             }
-            areaspots = new List<PointLatLng>();
-            pathspot = new List<PointLatLng>();
         }
 
         private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-         //   Map.Position = mapObjects.Last().getFocus(); // не работает со списками
+            PointLatLng clickedPoint = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+            MapObject @object = null;
+            double minimum = 0.0;
+            minimum = mapObjects[0].getDist(clickedPoint);
+            foreach (MapObject obj in mapObjects)
+            {
+                if (minimum > obj.getDist(clickedPoint))
+                {
+                    minimum = obj.getDist(clickedPoint);
+                    @object = obj;
+                }
+                if (@object == null)
+                    @object = mapObjects[0];
+            }
+
+
+            distanceToPoints.Content = Math.Round(minimum).ToString() + " " + @object.getTitle(); ;
+
         }
 
         private void Map_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -230,8 +245,26 @@ namespace mapa
 
         private void findsresult_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             Map.Position = mapObjects[findsresult.SelectedIndex].getFocus();
         }
+
+      
+        
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            findsresult.Items.Clear();
+            for (int i = 0; i < mapObjects.Count; i++)
+                if (mapObjects[i].objectName.Contains(whatineedtofound.Text))
+                    findsresult.Items.Add(mapObjects[i].objectName);
+            
+        }
+
+
+        
+
+        
     }
     
 }
