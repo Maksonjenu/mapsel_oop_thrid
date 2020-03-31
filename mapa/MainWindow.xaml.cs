@@ -34,9 +34,10 @@ namespace mapa
 
         public MainWindow()
         {
-           InitializeComponent();
-           initMap();
-           radioButCreate.IsChecked = true;
+            InitializeComponent();
+            initMap();
+            radioButCreate.IsChecked = true;
+            createmodecombo.SelectedIndex = 0;
         }
 
         public void initMap()
@@ -144,7 +145,7 @@ namespace mapa
                 areaspots = new List<PointLatLng>();
                 createObjectName.Clear();
             }
-               
+            checker();
             
         }
 
@@ -171,19 +172,44 @@ namespace mapa
 
         }
 
+        void checker()
+        {
+            switch (createmodecombo.SelectedIndex)
+            {
+                case 0:
+                    {
+                        if (areaspots.Count > 2)
+                            addbuttoncreate.IsEnabled = true;
+                        else
+                            addbuttoncreate.IsEnabled = false;
+                        break;
+                    }
+                case 4:
+                    {
+                        if (areaspots.Count > 1)
+                            addbuttoncreate.IsEnabled = true;
+                        else
+                            addbuttoncreate.IsEnabled = false;
+                        break;
+                    }
+
+            }
+
+            if (areaspots.Count == 0)
+                addbuttoncreate.IsEnabled = false;
+        }
+
         private void Map_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
-                areaspots.Add(Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y));
-            
+            areaspots.Add(Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y));
+            checker();
             clickinfoY.Content = areaspots.Last().Lng;
             clickinfoX.Content = areaspots.Last().Lat;
         }
 
         private void createmodecombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-
+            checker();
         }
 
         private void findsresult_SelectionChanged(object sender, SelectionChangedEventArgs e)
