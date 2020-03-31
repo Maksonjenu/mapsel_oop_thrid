@@ -32,7 +32,7 @@
 
         <TextBox x:Name="createObjectName" HorizontalAlignment="Left" Height="23" Margin="21,173,0,0" TextWrapping="Wrap" Text="name's here" VerticalAlignment="Top" Width="143"/>
         <Button x:Name="addbuttoncreate" Content="ok button" HorizontalAlignment="Left" Margin="21,201,0,0" VerticalAlignment="Top" Width="70" Click="addbuttoncreate_Click"/>
-        <Button x:Name="resetpointcreate" Content="reset point" HorizontalAlignment="Left" Margin="94,201,0,0" VerticalAlignment="Top" Width="70"/>
+        <Button x:Name="resetpointcreate" Content="reset point" HorizontalAlignment="Left" Margin="94,201,0,0" VerticalAlignment="Top" Width="70" Click="resetpointcreate_Click"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="201" Margin="10,238,0,0" VerticalAlignment="Top" Width="246"/>
         <TextBox x:Name="whatineedtofound" HorizontalAlignment="Left" Height="23" Margin="21,249,0,0" TextWrapping="Wrap" Text="search" VerticalAlignment="Top" Width="120"/>

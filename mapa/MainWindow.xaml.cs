@@ -27,12 +27,8 @@ namespace mapa
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static List<PointLatLng> areaspots = new List<PointLatLng>();
-        public static List<PointLatLng> pathspot = new List<PointLatLng>();
-        public List<MapObject> mapObjects = new List<MapObject>();
-        public PointLatLng point = new PointLatLng();
-        public bool getareagreatagain = false;
-        public bool getpathgreatagain = false;
+         List<PointLatLng> areaspots = new List<PointLatLng>();
+         List<MapObject> mapObjects = new List<MapObject>();
        
 
 
@@ -57,53 +53,68 @@ namespace mapa
 
         }
         
-        public void createCarMarker(PointLatLng clickedPoint)
+     
+
+        public void createMarker(List<PointLatLng> points, int index) 
         {
-            MapObject mapObject_car = new Car_class(createObjectName.Text,clickedPoint);
-            mapObjects.Add(mapObject_car);
-            Map.Markers.Add(mapObject_car.GetMarker());
+            MapObject mapObject = null;
+            switch (index)
+            {
+                case 0:
+                    {
+                        mapObject = new Area_class(createObjectName.Text, points);
+                        break;
+                    }
+                case 1:
+                    {
+                        mapObject = new Location_class(createObjectName.Text, points.Last());
+                        break;
+                    }
+                case 2:
+                    {
+                        mapObject = new Car_class(createObjectName.Text, points.Last());
+                        break;
+                    }
+                case 3:
+                    {
+                        mapObject = new Human_class(createObjectName.Text, points.Last());
+                        break;
+                    }
+                case 4:
+                    {
+                        mapObject = new Route_class(createObjectName.Text, points);
+                        break;
+                    }
+            
+            }
+            mapObjects.Add(mapObject);
+            Map.Markers.Add(mapObject.GetMarker());
         }
 
-        public void createPeopleMarker(PointLatLng clickedPoint)
-        {
-            MapObject mapObject_people = new Human_class(createObjectName.Text, clickedPoint);
-            mapObjects.Add(mapObject_people);
-            Map.Markers.Add(mapObject_people.GetMarker());
-        }
-
-        public void createPointMarker(PointLatLng clickedPoint)
-        {
-            MapObject mapObject_point = new Location_class(createObjectName.Text, clickedPoint);
-            mapObjects.Add(mapObject_point);
-            Map.Markers.Add(mapObject_point.GetMarker());
-        }
-
-        public void createArea(List<PointLatLng> points) 
-        {
-
-            MapObject mapObject_area = new Area_class(createObjectName.Text, points);
-            mapObjects.Add(mapObject_area);
-            Map.Markers.Add(mapObject_area.GetMarker());
-
-        }
-
-        public void createPath(List<PointLatLng> points) 
-        {
-            MapObject mapObject_path = new Route_class(createObjectName.Text, points);
-            mapObjects.Add(mapObject_path);
-            Map.Markers.Add(mapObject_path.GetMarker());
-
-        }
+    
 
         private void MapLoaded(object sender, RoutedEventArgs e)
         {
            
         }
 
+        List<MapObject> SortedList = new List<MapObject>();
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            findsresult.Items.Clear();
+            PointLatLng clickedPoint = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+            SortedList = mapObjects.OrderBy(o => o.getDist(clickedPoint)).ToList();
+            foreach (MapObject obj in SortedList)
+            {
+                string mapObjectAndDistanceString = new StringBuilder()
+                    .Append(obj.getTitle())
+                    .Append(" - ")
+                    .Append(obj.getDist(clickedPoint).ToString("0.##"))
+                    .Append(" м.").ToString();
+                findsresult.Items.Add(mapObjectAndDistanceString);
+            }
            
-        
+
         }
 
         private void radioButCreate_Checked(object sender, RoutedEventArgs e)
@@ -131,32 +142,31 @@ namespace mapa
                 {
                     case 0:
                         {
-                            createArea(areaspots);
+                            createMarker(areaspots,0);
                             break;
                         }
                     case 1:
                         {
-                            createPointMarker(point);
+                            createMarker(areaspots,1);
                             break;
                         }
                     case 2:
                         {
-                            createCarMarker(point);
+                            createMarker(areaspots,2);
                             break;
                         }
                     case 3:
                         {
-                            createPeopleMarker(point);
+                            createMarker(areaspots,3);
                             break;
                         }
                     case 4:
                         {
-                            createPath(pathspot);
+                            createMarker(areaspots,4);
                             break;
                         }
                 }
                 areaspots = new List<PointLatLng>();
-                pathspot = new List<PointLatLng>();
                 createObjectName.Clear();
             }
         }
@@ -165,8 +175,7 @@ namespace mapa
         {
             PointLatLng clickedPoint = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
             MapObject @object = null;
-            double minimum = 0.0;
-            minimum = mapObjects[0].getDist(clickedPoint);
+            double minimum = mapObjects[0].getDist(clickedPoint);
             foreach (MapObject obj in mapObjects)
             {
                 if (minimum > obj.getDist(clickedPoint))
@@ -179,74 +188,29 @@ namespace mapa
             }
 
 
-            distanceToPoints.Content = Math.Round(minimum).ToString() + " " + @object.getTitle(); ;
+            distanceToPoints.Content = $"{Math.Round(minimum)} { @object.getTitle()}"; 
 
         }
 
         private void Map_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (getareagreatagain)
-            {
-                point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
-                areaspots.Add(point);
-                clickinfoY.Content = point.Lng;
-                clickinfoX.Content = point.Lat;
-
-            }
-            else
-            if (getpathgreatagain)
-            {
-                point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
-                pathspot.Add(point);
-                clickinfoY.Content = point.Lng;
-                clickinfoX.Content = point.Lat;
-            }
-            else
-            {
-                point = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
-                clickinfoY.Content = point.Lng;
-                clickinfoX.Content = point.Lat;
-            }
+            
+                areaspots.Add(Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y));
+            
+            clickinfoY.Content = areaspots.Last().Lng;
+            clickinfoX.Content = areaspots.Last().Lat;
         }
 
         private void createmodecombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (createmodecombo.SelectedIndex == 0) // area
-            {
-                getareagreatagain = true;
-                getpathgreatagain = false;
-            }
-
-            if (createmodecombo.SelectedIndex == 1) // point
-            {
-                getareagreatagain = false;
-                getpathgreatagain = false;
-            }
-
-            if (createmodecombo.SelectedIndex == 2) // car
-            {
-                getareagreatagain = false;
-                getpathgreatagain = false;
-            }
-
-            if (createmodecombo.SelectedIndex == 3) // people
-            {
-                getareagreatagain = false;
-                getpathgreatagain = false;
-            }
-
-            if (createmodecombo.SelectedIndex == 4) // path
-            {
-                getareagreatagain = false;
-                getpathgreatagain = true;
-            }
+            
 
         }
 
         private void findsresult_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            Map.Position = mapObjects[findsresult.SelectedIndex].getFocus();
+                if (SortedList.Count != 0)
+                    Map.Position = SortedList[findsresult.SelectedIndex].getFocus();
         }
 
       
@@ -257,14 +221,19 @@ namespace mapa
             findsresult.Items.Clear();
             for (int i = 0; i < mapObjects.Count; i++)
                 if (mapObjects[i].objectName.Contains(whatineedtofound.Text))
+                {
                     findsresult.Items.Add(mapObjects[i].objectName);
-            
+                    SortedList.Add(mapObjects[i]);
+                }
         }
 
+        private void resetpointcreate_Click(object sender, RoutedEventArgs e)
+        {
+            areaspots = new List<PointLatLng>();
+            clickinfoX.Content = "0";
+            clickinfoY.Content = "0";
 
-        
-
-        
+        }
     }
     
 }
