@@ -192,6 +192,11 @@ namespace mapa
                             addbuttoncreate.IsEnabled = false;
                         break;
                     }
+                default :
+                    {
+                        addbuttoncreate.IsEnabled = true;
+                        break;
+                    }
 
             }
 
