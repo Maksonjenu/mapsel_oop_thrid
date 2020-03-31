@@ -20,10 +20,6 @@ namespace mapa
 
 
         public override PointLatLng getFocus() => point;
-
-        public override string getTitle() => objectName;
-
-        public override DateTime getCreationDate() => creationTime;
        
         public override GMapMarker GetMarker()
         {

@@ -29,12 +29,8 @@ namespace mapa
         {
             this.points = Points;
         }
-
-        public override DateTime getCreationDate() => creationTime;
         
         public override PointLatLng getFocus() => points.Last();
-
-        public override string getTitle() => objectName;
         
         public override GMapMarker GetMarker() 
         {

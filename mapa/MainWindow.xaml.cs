@@ -29,14 +29,14 @@ namespace mapa
     {
          List<PointLatLng> areaspots = new List<PointLatLng>();
          List<MapObject> mapObjects = new List<MapObject>();
-       
+         List<MapObject> SortedList = new List<MapObject>();
 
 
         public MainWindow()
         {
            InitializeComponent();
            initMap();
-            radioButCreate.IsChecked = true;
+           radioButCreate.IsChecked = true;
         }
 
         public void initMap()
@@ -53,7 +53,6 @@ namespace mapa
 
         }
         
-     
 
         public void createMarker(List<PointLatLng> points, int index) 
         {
@@ -87,8 +86,11 @@ namespace mapa
                     }
             
             }
-            mapObjects.Add(mapObject);
-            Map.Markers.Add(mapObject.GetMarker());
+            if (mapObject != null)
+            {
+                mapObjects.Add(mapObject);
+                Map.Markers.Add(mapObject.GetMarker());
+            }
         }
 
     
@@ -98,7 +100,7 @@ namespace mapa
            
         }
 
-        List<MapObject> SortedList = new List<MapObject>();
+
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             findsresult.Items.Clear();
@@ -138,44 +140,21 @@ namespace mapa
                 System.Windows.MessageBox.Show("Имя объекта пустое");
             else
             {
-                switch (createmodecombo.SelectedIndex)
-                {
-                    case 0:
-                        {
-                            createMarker(areaspots,0);
-                            break;
-                        }
-                    case 1:
-                        {
-                            createMarker(areaspots,1);
-                            break;
-                        }
-                    case 2:
-                        {
-                            createMarker(areaspots,2);
-                            break;
-                        }
-                    case 3:
-                        {
-                            createMarker(areaspots,3);
-                            break;
-                        }
-                    case 4:
-                        {
-                            createMarker(areaspots,4);
-                            break;
-                        }
-                }
+                createMarker(areaspots, createmodecombo.SelectedIndex);
                 areaspots = new List<PointLatLng>();
                 createObjectName.Clear();
             }
+               
+            
         }
 
         private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            double minimum = new double();
             PointLatLng clickedPoint = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
             MapObject @object = null;
-            double minimum = mapObjects[0].getDist(clickedPoint);
+            if (mapObjects.Count != 0)
+            minimum = mapObjects[0].getDist(clickedPoint);
             foreach (MapObject obj in mapObjects)
             {
                 if (minimum > obj.getDist(clickedPoint))
@@ -187,7 +166,7 @@ namespace mapa
                     @object = mapObjects[0];
             }
 
-
+            if (@object!=null)
             distanceToPoints.Content = $"{Math.Round(minimum)} { @object.getTitle()}"; 
 
         }

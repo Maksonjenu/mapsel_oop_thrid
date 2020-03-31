@@ -49,11 +49,6 @@ namespace mapa
             };
             return marker;
         }
-
-        public override DateTime getCreationDate() => creationTime;
-      
-
-        public override string getTitle() => objectName;
        
 
         public override double getDist(PointLatLng point)

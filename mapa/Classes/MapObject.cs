@@ -23,11 +23,10 @@ namespace mapa.Classes
             creationTime = DateTime.Now;
         }
 
-        public abstract string getTitle();
+        public string getTitle() => objectName;
 
-        public abstract DateTime getCreationDate();
+        public DateTime getCreationDate() => creationTime;
 
-        
 
         public abstract PointLatLng getFocus();
 

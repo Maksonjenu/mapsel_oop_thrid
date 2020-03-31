@@ -21,8 +21,6 @@ namespace mapa
 
         public override PointLatLng getFocus() => point;
         
-
-        public override DateTime getCreationDate() => creationTime;
       
 
         public override GMapMarker GetMarker()
@@ -40,7 +38,6 @@ namespace mapa
             return marker;
         }
 
-        public override string getTitle() => objectName;
        
 
         public override double getDist(PointLatLng point1)
