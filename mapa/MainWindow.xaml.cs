@@ -90,7 +90,7 @@ namespace mapa
             if (mapObject != null)
             {
                 mapObjects.Add(mapObject);
-                Map.Markers.Add(mapObject.GetMarker());
+                Map.Markers.Add(mapObject.getMarker());
             }
         }
 
@@ -104,19 +104,21 @@ namespace mapa
 
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            findsresult.Items.Clear();
-            PointLatLng clickedPoint = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
-            SortedList = mapObjects.OrderBy(o => o.getDist(clickedPoint)).ToList();
-            foreach (MapObject obj in SortedList)
+            if (radioButSearch.IsChecked == true)
             {
-                string mapObjectAndDistanceString = new StringBuilder()
-                    .Append(obj.getTitle())
-                    .Append(" - ")
-                    .Append(obj.getDist(clickedPoint).ToString("0.##"))
-                    .Append(" м.").ToString();
-                findsresult.Items.Add(mapObjectAndDistanceString);
+                findsresult.Items.Clear();
+                PointLatLng clickedPoint = Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y);
+                SortedList = mapObjects.OrderBy(o => o.getDist(clickedPoint)).ToList();
+                foreach (MapObject obj in SortedList)
+                {
+                    string mapObjectAndDistanceString = new StringBuilder()
+                        .Append(obj.getTitle())
+                        .Append(" - ")
+                        .Append(obj.getDist(clickedPoint).ToString("0.##"))
+                        .Append(" м.").ToString();
+                    findsresult.Items.Add(mapObjectAndDistanceString);
+                }
             }
-           
 
         }
 
@@ -219,8 +221,9 @@ namespace mapa
 
         private void findsresult_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                if (SortedList.Count != 0)
-                    Map.Position = SortedList[findsresult.SelectedIndex].getFocus();
+                if ((SortedList.Count != 0) || (findsresult.Items.Count != 0))
+                    Map.Position = SortedList[findsresult.SelectedIndex]
+                    .getFocus();
         }
 
       

@@ -35,7 +35,7 @@ namespace mapa
         public override PointLatLng getFocus() => points.Last();
         
 
-        public override GMapMarker GetMarker()
+        public override GMapMarker getMarker()
         {
             GMapMarker marker = new GMapRoute(points)
             {

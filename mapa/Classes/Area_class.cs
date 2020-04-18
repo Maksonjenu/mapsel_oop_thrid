@@ -21,18 +21,19 @@ using mapa.Classes;
 
 namespace mapa
 {
-     class Area_class : MapObject
+    class Area_class : MapObject
     {
-       public List<PointLatLng> points = new List<PointLatLng>();
+        public List<PointLatLng> points = new List<PointLatLng>();
 
-      public Area_class(string name,List<PointLatLng> Points) : base(name)
+        public Area_class(string name, List<PointLatLng> Points) : base(name)
         {
             this.points = Points;
         }
-        
+
         public override PointLatLng getFocus() => points.Last();
         
-        public override GMapMarker GetMarker() 
+        
+        public override GMapMarker getMarker() 
         {
             GMapMarker marker = new GMapPolygon(points)
             {

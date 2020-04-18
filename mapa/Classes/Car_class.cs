@@ -23,7 +23,7 @@ namespace mapa
         
       
 
-        public override GMapMarker GetMarker()
+        public override GMapMarker getMarker()
         {
             GMapMarker marker = new GMapMarker(point)
             {
