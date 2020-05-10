@@ -18,7 +18,7 @@ using GMap.NET.WindowsPresentation;
 using System.Device.Location;
 using System.Windows.Forms;
 using mapa.Classes;
-
+using System.Threading;
 
 namespace mapa
 {
@@ -30,7 +30,11 @@ namespace mapa
          List<PointLatLng> areaspots = new List<PointLatLng>();
          List<MapObject> mapObjects = new List<MapObject>();
          List<MapObject> SortedList = new List<MapObject>();
-
+        RoutingProvider routingProvider = GMapProviders.OpenStreetMap;
+        static PointLatLng startOfRoute;
+        static PointLatLng endOfRoute;
+        List<PointLatLng> nearestPointPosition = new List<PointLatLng>();
+        List<MapObject> nearestObjects = new List<MapObject>();
 
         public MainWindow()
         {
@@ -44,11 +48,12 @@ namespace mapa
         {
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
             Map.MapProvider = OpenStreetMapProvider.Instance;
+            
             Map.MinZoom = 2;
             Map.MaxZoom = 17;
             Map.Zoom = 15;
             Map.Position = new PointLatLng(55.012823, 82.950359);
-            Map.MouseWheelZoomType = MouseWheelZoomType.MousePositionAndCenter;
+            Map.MouseWheelZoomType = MouseWheelZoomType.MousePositionWithoutCenter;
             Map.CanDragMap = true;
             Map.DragButton = MouseButton.Left;
 
@@ -208,13 +213,46 @@ namespace mapa
 
         private void Map_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            areaspots.Add(Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y));
-            checker();
-            clickinfoY.Content = areaspots.Last().Lng;
-            clickinfoX.Content = areaspots.Last().Lat;
+
+            
+            if (taximode.IsChecked == true)
+            {
+                areaspots.Add(Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y));
+                checker();
+                if (areaspots.Count > 1)
+                end_spot.Content = $"{areaspots[areaspots.Count - 2].Lng} {areaspots[areaspots.Count - 2].Lat}";
+                start_spot.Content = $"{areaspots.Last().Lng} {areaspots.Last().Lat}";
+            }
+            else
+            {
+                areaspots.Add(Map.FromLocalToLatLng((int)e.GetPosition(Map).X, (int)e.GetPosition(Map).Y));
+                checker();
+                clickinfoY.Content = areaspots.Last().Lng;
+                clickinfoX.Content = areaspots.Last().Lat;
+            }
         }
 
-        private void createmodecombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+       
+
+    private void Focus_Follow(object sender, EventArgs args)
+{
+        Car_class c = (Car_class)sender;
+        waybar.Maximum = c.route.Points.Count;
+        Map.Position = c.getFocus();
+
+            if (waybar.Value == waybar.Maximum)
+                (sender as Car_class).Follow -= Focus_Follow;
+          
+            if (waybar.Value != waybar.Maximum)
+                waybar.Value += 1;
+        
+            else
+                waybar.Value = 0;
+       
+}
+
+private void createmodecombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             checker();
         }
@@ -246,6 +284,85 @@ namespace mapa
             clickinfoX.Content = "0";
             clickinfoY.Content = "0";
 
+        }
+        
+        private void stuvk_Click(object sender, RoutedEventArgs e)
+        {
+
+            {
+                waybar.Value = 0;
+                foreach (MapObject obj in mapObjects)
+                if (obj is Human_class)
+                startOfRoute = (obj.getFocus());
+                endOfRoute = areaspots.Last();
+                var besidedObj = mapObjects.OrderBy(mapObject => mapObject.getDist(startOfRoute));
+
+                Car_class nearestCar = null;
+                Human_class h = null;
+
+                foreach (MapObject obj in mapObjects)
+                {
+                    if (obj is Human_class)
+                    {
+                        h = (Human_class)obj;
+                        h.destinationPoint = endOfRoute;
+                        break;
+                    }
+                }
+
+                foreach (MapObject obj in besidedObj)
+                {
+                    if (obj is Car_class)
+                    {
+                        nearestCar = (Car_class)obj;
+                        break;
+                    }
+                }
+
+                var aaa =  nearestCar.MoveTo(startOfRoute);
+                createMarker(aaa.Points,4);
+
+                RoutingProvider routingProvider = GMapProviders.OpenStreetMap;
+                MapRoute route = routingProvider.GetRoute(
+                    startOfRoute,
+                    endOfRoute,
+                    false,
+                    false,
+                    15);
+                createMarker(route.Points, 4);
+                nearestCar.Arrived += h.CarArrived;
+                h.seated += nearestCar.getintocar;
+                nearestCar.Follow += Focus_Follow;
+
+
+              //  nearestCar.Arrived -= h.CarArrived;
+              //  h.seated -= nearestCar.getintocar;
+            }
+
+        }
+
+        private void MoveByRoute()
+        {
+            // test  test  test  test  test  test  test  test  test 
+            MapRoute route = routingProvider.GetRoute(
+                areaspots.Last(), // начальная точка маршрута
+                areaspots[0], // конечная точка маршрута
+                false, // поиск по шоссе (false - включен)
+                false, // режим пешехода (false - выключен)
+                (int)15);
+            // получение точек маршрута
+            List<PointLatLng> routePoints = route.Points;
+            // последовательный перебор точек маршрута
+            foreach (var point in route.Points)
+            {
+                // делегат, возвращающий управление в главный поток
+                System.Windows.Application.Current.Dispatcher.Invoke(delegate {
+                    // изменение позиции маркера
+                    Map.Position = point;
+                });
+                // задержка 500 мс
+                Thread.Sleep(500);
+            }
         }
     }
     

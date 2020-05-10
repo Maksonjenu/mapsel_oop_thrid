@@ -30,6 +30,7 @@ namespace mapa
                     Width = 32, // ширина маркера
                     Height = 32, // высота маркера
                     ToolTip = objectName, // всплывающая подсказка
+                    Margin = new System.Windows.Thickness(-16, -16, 0, 0),
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/point.png")) // картинка
                 }
             };

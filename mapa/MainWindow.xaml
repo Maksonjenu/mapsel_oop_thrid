@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:mapa"
         xmlns:WindowsPresentation="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation" x:Class="mapa.MainWindow"
         mc:Ignorable="d"
-        Title="s" Height="479.577" Width="1002.817">
+        Title="s" Height="479.577" Width="1179.317">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Width="167" Margin="13,31,0,0"/>
         <RadioButton Content="object search" Name="radioButSearch" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="21,66,0,0" Checked="radioButSearch_Checked"/>
         <RadioButton Content="create object" Name="radioButCreate" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="21,46,0,0" Checked="radioButCreate_Checked"/>
 
 
-        <Grid Name="Maps" Height="Auto" Width="Auto" Margin="279,10,2,8">
-            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseDoubleClick="Map_MouseDoubleClick" MouseRightButtonDown="Map_MouseRightButtonDown"/>
+        <Grid Name="Maps" Height="Auto" Width="Auto" Margin="279,10,176,8">
+            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseDoubleClick="Map_MouseDoubleClick" MouseRightButtonDown="Map_MouseRightButtonDown" Width="700" Height="400" HorizontalAlignment="Left"/>
 
 
         </Grid>
@@ -42,5 +42,19 @@
         <Label x:Name="clickinfoY" Content="0" HorizontalAlignment="Left" Margin="201,63,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="findsresult" HorizontalAlignment="Left" Height="120" Margin="21,308,0,0" VerticalAlignment="Top" Width="218" SelectionChanged="findsresult_SelectionChanged"/>
         <Label x:Name="distanceToPoints" Content="0" HorizontalAlignment="Left" Margin="201,110,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="stuvk" Content="Button" HorizontalAlignment="Left" Margin="1038,137,0,0" VerticalAlignment="Top" Width="68" Height="31" Click="stuvk_Click"/>
+        <ProgressBar x:Name="waybar" HorizontalAlignment="Left" Height="35" Margin="810,208,-48,0" VerticalAlignment="Top" Width="399" RenderTransformOrigin="0.5,0.5" Value="14.88">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="50"/>
+                    <RotateTransform Angle="91"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <CheckBox x:Name="taximode" Content="cab mode" HorizontalAlignment="Left" Margin="1038,31,0,0" VerticalAlignment="Top" Height="30" Width="123" FontSize="18"/>
+        <Label x:Name="start_spot" Content="Label" HorizontalAlignment="Left" Margin="1038,66,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="end_spot" Content="Label" HorizontalAlignment="Left" Margin="1038,97,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
